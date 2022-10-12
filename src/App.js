@@ -1,25 +1,54 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { API, APIKEY } from './API';
 
-function App() {
+const App = () => {
+
+  const [cityName, setCityName] = useState({})
+  const [data, setData] = useState({})
+
+
+
+
+
+
+  const getWeater = async (e) => {
+    e.preventDefault()
+    // axios.get(API + "London" + APIKEY)
+    //   .then(response => console.log(response.data))
+    //   .catch(err => console.log(err))
+
+    const response = await axios.get(API + cityName + APIKEY)
+    // setInfo(response?.data)
+    console.log(response?.data);
+    setData(response?.data)
+  }
+
+
+
+  // useEffect(() => {
+  //   getWeater()
+  // }, [])
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <form onSubmit={getWeater}>
+        <input onChange={(e) => setCityName(e.target.value)} type="text" value={cityName} placeholder='City name' />
+        <button >Search</button>
+      </form>
+      <div className='output'>
+
+        <h1>{data.name}</h1>
+        {/* <h2>{"Координаты по lat: " + data.coord.lat}</h2>
+        <h2>{"Координаты по lon: " + data.coord.lon}</h2> */}
+
+
+
+      </div>
+
     </div>
   );
-}
+};
 
 export default App;
